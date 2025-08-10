@@ -1,0 +1,19 @@
+package com.template.shared.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class LoginRequest(val email: String, val password: String)
+
+@Serializable
+data class LoginResponse(val success: Boolean, val message: String, val user: UserInfo? = null)
+
+@Serializable
+data class UserInfo(val id: Long, val email: String, val userType: String)
+
+@Serializable
+data class SessionState(
+    val isLoggedIn: Boolean = false,
+    val user: UserInfo? = null,
+    val isLoading: Boolean = false
+)

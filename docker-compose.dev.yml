@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: template-postgres
+    environment:
+      POSTGRES_DB: template_dev
+      POSTGRES_USER: template_user
+      POSTGRES_PASSWORD: template_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U template_user -d template_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: kotlin-fullstack-template:latest
+    container_name: template-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/template_dev
+      - DATABASE_USER=template_user
+      - DATABASE_PASSWORD=template_dev_password
+      - HOST=0.0.0.0
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:
+    driver: local

@@ -1,0 +1,65 @@
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    user_type VARCHAR(20) NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE
+);
+
+-- Sample data table for demonstration
+CREATE TABLE sample_data (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Queries for users table
+getAllUsers:
+SELECT * FROM users;
+
+getUserById:
+SELECT * FROM users WHERE id = ?;
+
+getUserByEmail:
+SELECT * FROM users WHERE email = ?;
+
+createUser:
+INSERT INTO users (email, password_hash, user_type) 
+VALUES (?, ?, ?)
+RETURNING id;
+
+updateUser:
+UPDATE users 
+SET email = ?, user_type = ?, updated_at = CURRENT_TIMESTAMP 
+WHERE id = ?;
+
+deactivateUser:
+UPDATE users 
+SET is_active = FALSE, updated_at = CURRENT_TIMESTAMP 
+WHERE id = ?;
+
+getAllActiveUsers:
+SELECT * FROM users WHERE is_active = TRUE ORDER BY created_at DESC;
+
+-- Queries for sample_data table
+getAllSampleData:
+SELECT * FROM sample_data;
+
+getSampleDataById:
+SELECT * FROM sample_data WHERE id = ?;
+
+createSampleData:
+INSERT INTO sample_data (name, description) 
+VALUES (?, ?)
+RETURNING id;
+
+updateSampleData:
+UPDATE sample_data 
+SET name = ?, description = ? 
+WHERE id = ?;
+
+deleteSampleData:
+DELETE FROM sample_data WHERE id = ?;

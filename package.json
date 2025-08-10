@@ -1,0 +1,8 @@
+{
+  "name": "kotlin-fullstack-template",
+  "description": "A template for Kotlin Multiplatform web applications",
+  "version": "1.0.0",
+  "dependencies": {
+    "@anthropic-ai/claude-code": "^1.0.63"
+  }
+}
