@@ -12,6 +12,18 @@ kotlin {
     jvm()
     js(IR) {
         browser()
+        binaries.library()
+        useEsModules() // Generate ES Modules instead of UMD
+
+        compilations.all {
+            kotlinOptions {
+                moduleKind = "es"
+                sourceMap = true
+                sourceMapEmbedSources = "always"
+            }
+        }
+
+        generateTypeScriptDefinitions()
     }
     
     sourceSets {
