@@ -8,6 +8,7 @@ export function HomePage() {
                 description="Connect with healthcare professionals and gain valuable clinical experience. Find verified shadowing opportunities across medical specialties nationwide."
                 path="/"
             />
+            <p>Hello World</p>
         </>
     );
 }

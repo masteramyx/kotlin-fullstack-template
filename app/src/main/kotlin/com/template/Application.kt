@@ -13,7 +13,7 @@ fun Application.module() {
     logger.info("Starting Kotlin Fullstack Template application")
     
     // Initialize database connection
-    DatabaseFactory.init()
+    //DatabaseFactory.init()
     logger.info("Database initialized successfully")
     
     configureSerialization()
